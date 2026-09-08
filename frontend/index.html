@@ -2,12 +2,83 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Viewport with zoom disabled -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="theme-color" content="#121212" />
+
+    <!-- Primary Title and Meta (Optimized for 'EV MPC', 'ev2026', 'EV MPC IEM Kolkata', 'shuvankar debnath', 'suvnkr') -->
+    <title>EV MPC · ev2026 | Battery-Constrained Model Predictive Control · IEM Kolkata</title>
+    <meta name="description" content="ev2026 is an EV MPC (Electric Vehicle Model Predictive Control) research project and interactive digital twin at IEM Kolkata. Simulating Battery-Constrained Adaptive Cruise Control (MPC-ACC) using Kalman Filter state estimation by Shuvankar Debnath (suvnkr)." />
+    <meta name="keywords" content="EV MPC, ev2026, EV MPC IEM Kolkata, IEM Kolkata EV MPC, Electric Vehicle Model Predictive Control, Battery-Constrained MPC ACC, shuvankar debnath, suvnkr, IEM Kolkata electrical engineering, Kalman filter state estimation, EV digital twin, battery degradation cruise control" />
+    <meta name="author" content="Shuvankar Debnath (suvnkr)" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href="https://ev.shuvankar.qzz.io/" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://ev.shuvankar.qzz.io/" />
+    <meta property="og:site_name" content="ev2026 · EV MPC" />
+    <meta property="og:title" content="EV MPC · ev2026 | Battery-Constrained Model Predictive Control" />
+    <meta property="og:description" content="EV MPC interactive digital twin developed at IEM Kolkata. Test predictive cruise control vs PID in real-time. Research by Shuvankar Debnath (suvnkr)." />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@suvnkr" />
+    <meta name="twitter:creator" content="@suvnkr" />
+    <meta name="twitter:title" content="EV MPC · ev2026 | Battery-Constrained Model Predictive Control" />
+    <meta name="twitter:description" content="EV MPC interactive digital twin developed at IEM Kolkata. Battery-Constrained MPC-ACC simulation by Shuvankar Debnath (suvnkr)." />
+
+    <!-- Structured Data: JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://ev.shuvankar.qzz.io/#website",
+          "url": "https://ev.shuvankar.qzz.io/",
+          "name": "ev2026 — EV MPC Digital Twin",
+          "alternateName": ["EV MPC", "ev2026", "EV MPC IEM Kolkata"],
+          "description": "Battery-Constrained Model Predictive Adaptive Cruise Control (EV MPC) for Electric Vehicles using Kalman Filter State Estimation at IEM Kolkata by Shuvankar Debnath (suvnkr).",
+          "publisher": {
+            "@type": "Person",
+            "name": "Shuvankar Debnath",
+            "alternateName": "suvnkr",
+            "url": "https://github.com/Shuvankar2"
+          }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://ev.shuvankar.qzz.io/#software",
+          "name": "ev2026 EV MPC Simulator",
+          "applicationCategory": "SimulationApplication",
+          "operatingSystem": "All",
+          "url": "https://ev.shuvankar.qzz.io/",
+          "author": {
+            "@type": "Person",
+            "name": "Shuvankar Debnath",
+            "alternateName": "suvnkr",
+            "url": "https://github.com/Shuvankar2",
+            "sameAs": [
+              "https://github.com/Shuvankar2"
+            ],
+            "affiliation": {
+              "@type": "EducationalOrganization",
+              "name": "Institute of Engineering & Management (IEM) Kolkata",
+              "sameAs": "https://iem.edu.in"
+            }
+          },
+          "keywords": "EV MPC, ev2026, EV MPC IEM Kolkata, Model Predictive Control, Kalman Filter, Electric Vehicles",
+          "description": "Interactive digital twin comparing Battery-Aware Model Predictive Control (EV MPC) against standard PID adaptive cruise control in Electric Vehicles. Research conducted at IEM Kolkata."
+        }
+      ]
+    }
+    </script>
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <title>Battery-Aware MPC ACC Dashboard</title>
   </head>
   <body>
     <div id="root"></div>

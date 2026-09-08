@@ -1,5 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Helmet } from 'react-helmet-async'
+import { Link } from 'react-router-dom'
 import { useSimulation }     from '../hooks/useSimulation'
 import SimControlRail        from '../components/simulator/SimControlRail'
 import SimKPIStrip           from '../components/simulator/SimKPIStrip'
@@ -16,6 +18,19 @@ const BOTTOM_TABS = [
 ]
 
 export default function SimulatorPage() {
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window === 'undefined') return false
+    return window.innerWidth < 1024
+  })
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1024)
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   const sim = useSimulation({
     soc_initial: 0.85,
     cruise_speed_kmh: 100,
@@ -31,7 +46,85 @@ export default function SimulatorPage() {
   )
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-slate-50 text-slate-700 font-mono dark:bg-slate-950 dark:text-slate-300 transition-colors duration-300">
+    <div className="flex h-screen w-screen overflow-hidden bg-slate-50 text-slate-700 font-mono dark:bg-slate-950 dark:text-slate-300 transition-colors duration-300 relative">
+      <Helmet>
+        <title>Live EV MPC Simulator · ev2026 | IEM Kolkata Digital Twin</title>
+        <meta name="description" content="Launch the ev2026 live EV MPC (Electric Vehicle Model Predictive Control) simulator. Test predictive EV cruise control vs standard PID in real-time. IEM Kolkata research digital twin by suvnkr (Shuvankar Debnath)." />
+        <meta name="keywords" content="EV MPC, EV MPC IEM Kolkata, live EV simulator, ev2026, ev2026 simulator, shuvankar debnath, suvnkr, model predictive control, battery degradation cruise control" />
+        <link rel="canonical" href="https://ev.shuvankar.qzz.io/simulator" />
+        <meta property="og:title" content="Live EV MPC Simulator · ev2026 | IEM Kolkata Digital Twin" />
+        <meta property="og:description" content="Simulate Battery-Aware EV MPC vs PID in real-time. Research digital twin developed at IEM Kolkata by Shuvankar Debnath (suvnkr)." />
+        <meta property="og:url" content="https://ev.shuvankar.qzz.io/simulator" />
+      </Helmet>
+
+      {/* ── MOBILE DESKTOP-ONLY GUARD OVERLAY ── */}
+      <AnimatePresence>
+        {isMobile && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/95 backdrop-blur-xl text-slate-100"
+          >
+            <motion.div
+              initial={{ scale: 0.92, y: 16 }}
+              animate={{ scale: 1, y: 0 }}
+              className="max-w-md w-full rounded-2xl border border-emerald-500/30 bg-slate-900/90 p-6 shadow-2xl text-center flex flex-col items-center"
+            >
+              {/* Monitor Device Icon */}
+              <div className="w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-4 shadow-[0_0_25px_rgba(16,185,129,0.2)]">
+                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+
+              <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-emerald-400 mb-1">
+                Desktop Only Mode
+              </span>
+              <h2 className="text-2xl font-black text-white mb-2">
+                Please Turn On Desktop Mode
+              </h2>
+              <p className="text-xs text-slate-300 leading-relaxed mb-5">
+                The live MPC-ACC simulator contains high-density telemetry, multi-curve state charts, and dynamic road visualization engineered exclusively for desktop viewports.
+              </p>
+
+              {/* Instructions Box */}
+              <div className="w-full bg-slate-950/60 border border-slate-800 rounded-xl p-4 text-left mb-5 text-xs text-slate-300 space-y-2">
+                <div className="font-semibold text-emerald-400 flex items-center gap-1.5 text-[11px] uppercase tracking-wider">
+                  <span>⚙️</span> How to enable on mobile:
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="text-emerald-400 font-bold">1.</span>
+                  <span>Tap your browser menu (<strong className="text-white">⋮</strong> in Chrome, <strong className="text-white">aA</strong> in Safari, <strong className="text-white">⋯</strong> in Edge).</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="text-emerald-400 font-bold">2.</span>
+                  <span>Enable <strong className="text-white">"Desktop site"</strong> or <strong className="text-white">"Request Desktop Website"</strong>.</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="text-emerald-400 font-bold">3.</span>
+                  <span>The simulator will automatically unlock and resize!</span>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 w-full">
+                <Link
+                  to="/"
+                  className="flex-1 rounded-xl bg-emerald-500 py-2.5 px-4 text-xs font-bold text-slate-950 transition hover:bg-emerald-400 active:scale-95 text-center flex items-center justify-center gap-1"
+                >
+                  ← Return to Home
+                </Link>
+                <button
+                  onClick={() => setIsMobile(false)}
+                  className="rounded-xl border border-slate-700 bg-slate-800/80 py-2.5 px-4 text-xs font-semibold text-slate-400 hover:text-slate-200 transition active:scale-95"
+                >
+                  Preview anyway
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ── LEFT RAIL ── */}
       <aside className="flex w-[300px] shrink-0 flex-col border-r border-slate-200 bg-white/70 dark:border-slate-800 dark:bg-slate-900/40 transition-colors duration-300">

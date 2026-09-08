@@ -4,52 +4,38 @@ import { HelmetProvider } from 'react-helmet-async'
 import App from './App'
 import './index.css'
 
-// Check if zooming should be allowed (allowed in desktop mode on mobile and in simulator)
-const isZoomPermitted = () => {
-  if (typeof window === 'undefined') return false
-  if (window.__allowZoom) return true
-  if (window.location.pathname.includes('/simulator')) return true
-  if (sessionStorage.getItem('ev_desktop_mode_active') === 'true') return true
-
-  const ua = navigator.userAgent || ''
-  const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0
-  const isExplicitMobile = /Mobile|iPhone|iPod|Android.*Mobile|webOS|BlackBerry|IEMobile|Opera Mini/i.test(ua)
-  
-  // If it's a touch device and NOT explicit mobile UA (meaning Desktop Mode is enabled on phone):
-  if (isTouch && !isExplicitMobile) return true
-
-  return false
-}
-
-// Disable accidental pinch-to-zoom on standard mobile pages, but allow when desktop mode is active
+/**
+ * GLOBAL PINCH-ZOOM PREVENTION
+ * -----------------------------
+ * By default, pinch-to-zoom and gesture events are blocked on all pages
+ * to prevent accidental zooming on the site.
+ *
+ * The ONLY exception is when `window.__allowZoom = true`, which is set
+ * exclusively by SimulatorPage when it detects a touch device running in
+ * Desktop Site mode (touch device + non-phone-mobile UA).
+ *
+ * This means:
+ *  - Normal mobile visitors: zoom blocked ✓
+ *  - Desktop visitors: zoom irrelevant (no touch) ✓
+ *  - Mobile in Desktop Site mode on /simulator: zoom allowed ✓
+ *  - Mobile in Desktop Site mode on other pages: zoom blocked ✓
+ */
 if (typeof window !== 'undefined') {
-  document.addEventListener('gesturestart', (e) => {
-    if (!isZoomPermitted()) e.preventDefault()
-  })
-  document.addEventListener('gesturechange', (e) => {
-    if (!isZoomPermitted()) e.preventDefault()
-  })
-  document.addEventListener('gestureend', (e) => {
-    if (!isZoomPermitted()) e.preventDefault()
-  })
+  const canZoom = () => window.__allowZoom === true
+
+  document.addEventListener('gesturestart',  (e) => { if (!canZoom()) e.preventDefault() })
+  document.addEventListener('gesturechange', (e) => { if (!canZoom()) e.preventDefault() })
+  document.addEventListener('gestureend',    (e) => { if (!canZoom()) e.preventDefault() })
 
   window.addEventListener(
     'touchstart',
-    (e) => {
-      if (e.touches.length > 1 && !isZoomPermitted()) {
-        e.preventDefault()
-      }
-    },
+    (e) => { if (e.touches.length > 1 && !canZoom()) e.preventDefault() },
     { passive: false }
   )
 
   window.addEventListener(
     'touchmove',
-    (e) => {
-      if (e.touches.length > 1 && !isZoomPermitted()) {
-        e.preventDefault()
-      }
-    },
+    (e) => { if (e.touches.length > 1 && !canZoom()) e.preventDefault() },
     { passive: false }
   )
 }

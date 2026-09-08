@@ -17,56 +17,91 @@ const BOTTOM_TABS = [
   { key: 'math',   label: 'Math'   },
 ]
 
-const checkIsMobileMode = () => {
+/**
+ * MOBILE PHONE DETECTION
+ * ----------------------
+ * We check for UA tokens that are EXCLUSIVELY present on phones in mobile browsing mode
+ * and are REMOVED by the browser when "Desktop Site" is enabled:
+ *
+ * - "iPhone" / "iPod" → iOS Safari in mobile mode. When Desktop Site is on, UA changes to
+ *   "Macintosh; Intel Mac OS X ..." — neither string remains.
+ * - "Android" + "Mobile" together → Chrome/Firefox on Android phone in mobile mode.
+ *   When Desktop Site is on, Chrome removes "Mobile" and switches to a Linux/x86_64 UA.
+ *
+ * We do NOT check plain "Mobile" or "Android" alone — those can persist in edge cases.
+ * Width check < 900px is a secondary guard ONLY; the UA is the primary truth.
+ *
+ * sessionStorage key 'ev_desktop_mode_active' = 'true' is set when the user clicks
+ * "I've Turned On Desktop Mode" as a manual fallback (for browsers that don't reload on UA switch).
+ */
+const isPhoneInMobileMode = () => {
   if (typeof window === 'undefined') return false
+  // Manual bypass: user confirmed desktop mode via the button
   if (sessionStorage.getItem('ev_desktop_mode_active') === 'true') return false
 
   const ua = navigator.userAgent || ''
-  // In mobile mode, mobile browsers explicitly send "Mobile" in userAgent.
-  // When the user taps "Desktop site" on Android Chrome or "Request Desktop Website" on iOS Safari:
-  // - Chrome Android removes "Mobile" from UA (or switches to Linux x86_64)
-  // - Safari iOS changes UA to Macintosh (Intel Mac OS X)
-  // - Firefox/Edge removes "Mobile"
-  const isExplicitMobileUA = /Mobile|iPhone|iPod|Android.*Mobile|webOS|BlackBerry|IEMobile|Opera Mini/i.test(ua)
-  
-  // Only trigger mobile gate if the browser explicitly identifies as a mobile phone in mobile mode AND width < 900px
-  if (isExplicitMobileUA && window.innerWidth < 900) {
-    return true
-  }
+  // iPhone/iPod in mobile Safari
+  const isIOS = /\b(iPhone|iPod)\b/.test(ua)
+  // Android Chrome/Firefox on phone (not tablet) in mobile mode
+  const isAndroidPhone = /Android/.test(ua) && /Mobile/.test(ua)
 
-  return false
+  return isIOS || isAndroidPhone
+}
+
+/**
+ * DESKTOP MODE ON MOBILE DETECTION
+ * ---------------------------------
+ * Detects when a touch device is operating in desktop UA mode
+ * (user enabled "Desktop Site"). Used to unlock zooming only in this case.
+ */
+const isDesktopModeOnMobile = () => {
+  if (typeof window === 'undefined') return false
+  const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0
+  const ua = navigator.userAgent || ''
+  const isPhoneMobileUA = /\b(iPhone|iPod)\b/.test(ua) || (/Android/.test(ua) && /Mobile/.test(ua))
+  // Touch device whose UA is now NOT a mobile phone UA = Desktop mode on phone
+  return hasTouch && !isPhoneMobileUA
 }
 
 export default function SimulatorPage() {
-  const [isMobile, setIsMobile] = useState(checkIsMobileMode)
+  const [isMobile, setIsMobile] = useState(isPhoneInMobileMode)
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(checkIsMobileMode())
-    }
+    // Re-evaluate on resize (e.g. when desktop site is enabled and page reflowed)
+    const handleResize = () => setIsMobile(isPhoneInMobileMode())
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  // Enable dynamic zooming and wide desktop layout scaling when inside the simulator
+  // Viewport & zoom management — runs once on mount
   useEffect(() => {
-    window.__allowZoom = true
     const meta = document.querySelector('meta[name="viewport"]')
     const prevContent = meta?.getAttribute('content')
+    const desktopMobileMode = isDesktopModeOnMobile()
+    const bypassConfirmed = sessionStorage.getItem('ev_desktop_mode_active') === 'true'
 
     if (meta) {
-      // In simulator and desktop mode from mobile, allow user pinch zooming freely
-      meta.setAttribute(
-        'content',
-        'width=1024, initial-scale=0.35, minimum-scale=0.2, maximum-scale=5.0, user-scalable=yes'
-      )
+      if (desktopMobileMode || bypassConfirmed) {
+        // Touch device in Desktop mode: render full 1024px layout, allow pinch-zoom
+        // This is the ONLY case where zooming is permitted
+        window.__allowZoom = true
+        meta.setAttribute(
+          'content',
+          'width=1024, initial-scale=0.35, minimum-scale=0.2, maximum-scale=5.0, user-scalable=yes'
+        )
+      } else {
+        // Real desktop or phone in normal mobile mode: fixed viewport, no user zoom
+        window.__allowZoom = false
+        meta.setAttribute(
+          'content',
+          'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
+        )
+      }
     }
 
     return () => {
       window.__allowZoom = false
-      if (meta && prevContent) {
-        meta.setAttribute('content', prevContent)
-      }
+      if (meta && prevContent) meta.setAttribute('content', prevContent)
     }
   }, [])
 

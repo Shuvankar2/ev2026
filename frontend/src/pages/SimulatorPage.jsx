@@ -182,21 +182,12 @@ export default function SimulatorPage() {
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3 w-full">
-                  <button
-                    onClick={() => {
-                      sessionStorage.setItem('ev_desktop_mode_active', 'true')
-                      setIsMobile(false)
-                    }}
-                    className="flex-1 rounded-xl bg-emerald-500 py-2.5 px-4 text-xs font-bold text-slate-950 transition hover:bg-emerald-400 active:scale-95 text-center flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-500/20"
-                  >
-                    ✓ I've Turned On Desktop Mode
-                  </button>
+                <div className="w-full">
                   <Link
                     to="/"
-                    className="rounded-xl border border-slate-700 bg-slate-800/80 py-2.5 px-4 text-xs font-semibold text-slate-300 hover:text-slate-100 transition active:scale-95 text-center flex items-center justify-center"
+                    className="w-full rounded-xl border border-slate-700 bg-slate-800/80 py-2.5 px-4 text-xs font-semibold text-slate-300 hover:text-slate-100 transition active:scale-95 text-center flex items-center justify-center"
                   >
-                    ← Home
+                    ← Back to Home
                   </Link>
                 </div>
               </motion.div>

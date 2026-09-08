@@ -2,13 +2,13 @@ import { motion } from 'framer-motion'
 
 export default function AnimatedEV() {
   return (
-    <div className="relative mx-auto flex w-full max-w-xl items-center justify-center">
+    <div className="relative mx-auto flex w-full max-w-xl items-center justify-center overflow-hidden">
       <motion.div
         animate={{ y: [0, -10, 0] }}
         transition={{ duration: 4.8, repeat: Infinity, ease: 'easeInOut' }}
-        className="relative"
+        className="relative w-full"
       >
-        <svg viewBox="0 0 760 460" className="w-full drop-shadow-[0_0_35px_rgba(16,185,129,0.12)]">
+        <svg viewBox="0 0 760 460" className="w-full h-auto drop-shadow-[0_0_35px_rgba(16,185,129,0.12)]">
           <defs>
             <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor="#1f1f1f" />

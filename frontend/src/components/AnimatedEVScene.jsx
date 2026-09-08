@@ -79,14 +79,14 @@ export default function AnimatedEVScene() {
     <section ref={ref} className="mx-auto max-w-7xl px-4 pb-0 pt-2 md:px-8">
 
       {/* Status badge */}
-      <div className="mb-5 text-center">
+      <div className="mb-5 text-center px-2">
         <motion.span
           animate={{
             backgroundColor: isMpc ? 'rgba(16,185,129,0.12)' : isStd ? 'rgba(239,68,68,0.12)' : isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
             color: isMpc ? '#34d399' : isStd ? '#f87171' : isDark ? 'rgba(255,255,255,0.35)' : 'rgba(0,0,0,0.35)',
           }}
           transition={{ duration: 0.5 }}
-          className="inline-flex rounded-full border border-slate-300/30 px-4 py-1.5 text-xs font-bold tracking-[0.2em] dark:border-white/10"
+          className="inline-flex max-w-full text-center rounded-full border border-slate-300/30 px-3 sm:px-4 py-1.5 text-[10px] sm:text-xs font-bold tracking-[0.08em] sm:tracking-[0.2em] dark:border-white/10"
         >
           {isMpc ? 'MPC-ACC ACTIVE — REGEN PRESERVED' : isStd ? 'STANDARD ACC — WATCH WHAT HAPPENS' : 'SCROLL TO SEE ADAS IN ACTION ↓'}
         </motion.span>
@@ -161,14 +161,16 @@ export default function AnimatedEVScene() {
         <AnimatePresence mode="wait">
           {showFriction && (
             <motion.div key="friction" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
-              className="absolute right-24 top-5 z-[7] rounded-xl border border-rose-500/40 bg-rose-500/15 px-4 py-2 text-xs font-bold text-rose-500 backdrop-blur-sm dark:text-rose-400">
-              ⚠ FRICTION BRAKE · Energy Lost as Friction Heat
+              className="absolute left-3 sm:left-auto sm:right-24 top-3 sm:top-5 z-[7] max-w-[calc(100%-80px)] sm:max-w-none rounded-xl border border-rose-500/40 bg-rose-500/15 px-3 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-xs font-bold text-rose-500 backdrop-blur-sm dark:text-rose-400">
+              <span className="sm:hidden">⚠ FRICTION BRAKE · Heat Loss</span>
+              <span className="hidden sm:inline">⚠ FRICTION BRAKE · Energy Lost as Friction Heat</span>
             </motion.div>
           )}
           {isMpc && (
             <motion.div key="regen" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
-              className="absolute right-24 top-5 z-[7] rounded-xl border border-emerald-500/40 bg-emerald-500/15 px-4 py-2 text-xs font-bold text-emerald-600 backdrop-blur-sm dark:text-emerald-400">
-              ✓ REGEN ACTIVE · Kinetic Energy Recovered via Regeneration
+              className="absolute left-3 sm:left-auto sm:right-24 top-3 sm:top-5 z-[7] max-w-[calc(100%-80px)] sm:max-w-none rounded-xl border border-emerald-500/40 bg-emerald-500/15 px-3 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-xs font-bold text-emerald-600 backdrop-blur-sm dark:text-emerald-400">
+              <span className="sm:hidden">✓ REGEN ACTIVE · Energy Preserved</span>
+              <span className="hidden sm:inline">✓ REGEN ACTIVE · Kinetic Energy Recovered via Regeneration</span>
             </motion.div>
           )}
         </AnimatePresence>
@@ -177,14 +179,16 @@ export default function AnimatedEVScene() {
         <AnimatePresence mode="wait">
           {isStd && (
             <motion.div key="std" initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -8 }}
-              className="absolute bottom-4 left-5 z-[7] rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-1.5 text-xs font-bold text-rose-500 backdrop-blur-sm dark:text-rose-400">
-              STD ACC · PID · No battery awareness
+              className="absolute bottom-3 sm:bottom-4 left-3 sm:left-5 z-[7] rounded-lg border border-rose-500/30 bg-rose-500/10 px-2.5 sm:px-3 py-1 sm:py-1.5 text-[10px] sm:text-xs font-bold text-rose-500 backdrop-blur-sm dark:text-rose-400">
+              <span className="sm:hidden">STD ACC · PID</span>
+              <span className="hidden sm:inline">STD ACC · PID · No battery awareness</span>
             </motion.div>
           )}
           {isMpc && (
             <motion.div key="mpc" initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -8 }}
-              className="absolute bottom-4 left-5 z-[7] rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-bold text-emerald-600 backdrop-blur-sm dark:text-emerald-400">
-              MPC ACC · Predictive · EKF battery-aware
+              className="absolute bottom-3 sm:bottom-4 left-3 sm:left-5 z-[7] rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-2.5 sm:px-3 py-1 sm:py-1.5 text-[10px] sm:text-xs font-bold text-emerald-600 backdrop-blur-sm dark:text-emerald-400">
+              <span className="sm:hidden">MPC ACC · Predictive</span>
+              <span className="hidden sm:inline">MPC ACC · Predictive · EKF battery-aware</span>
             </motion.div>
           )}
         </AnimatePresence>

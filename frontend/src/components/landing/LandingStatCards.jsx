@@ -76,7 +76,7 @@ export default function LandingStatCards() {
   const active = STATS.find(s => s.id === activeId)
 
   return (
-    <section className="border-y border-slate-200 bg-slate-100 px-4 py-16 md:px-8 dark:border-white/5 dark:bg-slate-900 transition-colors duration-300">
+    <section className="border-y border-slate-200 bg-slate-100 px-4 py-12 sm:py-16 md:px-8 dark:border-white/5 dark:bg-slate-900 transition-colors duration-300">
       <div className="mx-auto max-w-7xl">
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -85,9 +85,9 @@ export default function LandingStatCards() {
               key={stat.id}
               onClick={() => setActiveId(stat.id)}
               whileTap={{ scale: 0.97 }}
-              className="group rounded-2xl border border-slate-200 bg-white p-8 text-left transition-all duration-200 hover:-translate-y-0.5 hover:border-emerald-500/30 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 active:scale-95 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10 dark:hover:shadow-none"
+              className="group rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 text-left transition-all duration-200 hover:-translate-y-0.5 hover:border-emerald-500/30 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 active:scale-95 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10 dark:hover:shadow-none"
             >
-              <div className="text-5xl font-black tabular-nums text-emerald-600 transition-colors group-hover:text-emerald-500 md:text-6xl dark:text-emerald-400 dark:group-hover:text-emerald-300">
+              <div className="text-4xl sm:text-5xl md:text-6xl font-black tabular-nums text-emerald-600 transition-colors group-hover:text-emerald-500 dark:text-emerald-400 dark:group-hover:text-emerald-300">
                 {stat.value}
               </div>
               <div className="mt-3 text-xs font-bold uppercase leading-relaxed tracking-[0.18em] text-slate-500 dark:text-white/40">
@@ -173,8 +173,8 @@ export default function LandingStatCards() {
                     <div className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-slate-400 dark:text-white/30">
                       Per-Scenario Breakdown
                     </div>
-                    <div className="overflow-hidden rounded-xl border border-slate-200 dark:border-white/8 transition-colors duration-300">
-                      <table className="w-full text-sm">
+                    <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-white/8 transition-colors duration-300">
+                      <table className="w-full min-w-[380px] text-sm">
                         <thead>
                           <tr className="border-b border-slate-200 bg-slate-50 dark:border-white/8 dark:bg-white/5">
                             {active?.tableHeaders.map((h, i) => (

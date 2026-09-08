@@ -138,67 +138,69 @@ export default function SimulatorPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/95 backdrop-blur-xl text-slate-100"
+            className="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-slate-950/95 backdrop-blur-xl text-slate-100 touch-pan-y"
           >
-            <motion.div
-              initial={{ scale: 0.92, y: 16 }}
-              animate={{ scale: 1, y: 0 }}
-              className="max-w-md w-full rounded-2xl border border-emerald-500/30 bg-slate-900/90 p-6 shadow-2xl text-center flex flex-col items-center"
-            >
-              {/* Monitor Device Icon */}
-              <div className="w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-4 shadow-[0_0_25px_rgba(16,185,129,0.2)]">
-                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-              </div>
+            <div className="flex min-h-full items-center justify-center p-4 py-6 sm:py-10">
+              <motion.div
+                initial={{ scale: 0.92, y: 16 }}
+                animate={{ scale: 1, y: 0 }}
+                className="max-w-md w-full my-auto rounded-2xl border border-emerald-500/30 bg-slate-900/95 p-5 sm:p-6 shadow-2xl text-center flex flex-col items-center"
+              >
+                {/* Monitor Device Icon */}
+                <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-3 sm:mb-4 shadow-[0_0_25px_rgba(16,185,129,0.2)]">
+                  <svg className="w-6 h-6 sm:w-8 sm:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </div>
 
-              <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-emerald-400 mb-1">
-                Desktop View Recommended
-              </span>
-              <h2 className="text-2xl font-black text-white mb-2">
-                Please Turn On Desktop Mode
-              </h2>
-              <p className="text-xs text-slate-300 leading-relaxed mb-5">
-                The live MPC-ACC simulator contains high-density telemetry, multi-curve state charts, and dynamic road visualization engineered for desktop viewports.
-              </p>
+                <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.25em] text-emerald-400 mb-1">
+                  Desktop View Recommended
+                </span>
+                <h2 className="text-xl sm:text-2xl font-black text-white mb-2">
+                  Please Turn On Desktop Mode
+                </h2>
+                <p className="text-xs text-slate-300 leading-relaxed mb-4 sm:mb-5">
+                  The live MPC-ACC simulator contains high-density telemetry, multi-curve state charts, and dynamic road visualization engineered for desktop viewports.
+                </p>
 
-              {/* Instructions Box */}
-              <div className="w-full bg-slate-950/60 border border-slate-800 rounded-xl p-4 text-left mb-5 text-xs text-slate-300 space-y-2">
-                <div className="font-semibold text-emerald-400 flex items-center gap-1.5 text-[11px] uppercase tracking-wider">
-                  <span>⚙️</span> How to enable on mobile:
+                {/* Instructions Box */}
+                <div className="w-full bg-slate-950/60 border border-slate-800 rounded-xl p-3.5 sm:p-4 text-left mb-4 sm:mb-5 text-xs text-slate-300 space-y-1.5 sm:space-y-2">
+                  <div className="font-semibold text-emerald-400 flex items-center gap-1.5 text-[11px] uppercase tracking-wider">
+                    <span>⚙️</span> How to enable on mobile:
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-emerald-400 font-bold">1.</span>
+                    <span>Tap your browser menu (<strong className="text-white">⋮</strong> in Chrome, <strong className="text-white">aA</strong> in Safari, <strong className="text-white">⋯</strong> in Edge).</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-emerald-400 font-bold">2.</span>
+                    <span>Enable <strong className="text-white">"Desktop site"</strong> or <strong className="text-white">"Request Desktop Website"</strong>.</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-emerald-400 font-bold">3.</span>
+                    <span>The simulator will automatically unlock, allowing you to pinch-zoom into any chart!</span>
+                  </div>
                 </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-emerald-400 font-bold">1.</span>
-                  <span>Tap your browser menu (<strong className="text-white">⋮</strong> in Chrome, <strong className="text-white">aA</strong> in Safari, <strong className="text-white">⋯</strong> in Edge).</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-emerald-400 font-bold">2.</span>
-                  <span>Enable <strong className="text-white">"Desktop site"</strong> or <strong className="text-white">"Request Desktop Website"</strong>.</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-emerald-400 font-bold">3.</span>
-                  <span>The simulator will automatically unlock, allowing you to pinch-zoom into any chart!</span>
-                </div>
-              </div>
 
-              <div className="flex flex-col sm:flex-row gap-3 w-full">
-                <button
-                  onClick={() => {
-                    sessionStorage.setItem('ev_desktop_mode_active', 'true')
-                    setIsMobile(false)
-                  }}
-                  className="flex-1 rounded-xl bg-emerald-500 py-2.5 px-4 text-xs font-bold text-slate-950 transition hover:bg-emerald-400 active:scale-95 text-center flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-500/20"
-                >
-                  ✓ I've Turned On Desktop Mode
-                </button>
-                <Link
-                  to="/"
-                  className="rounded-xl border border-slate-700 bg-slate-800/80 py-2.5 px-4 text-xs font-semibold text-slate-300 hover:text-slate-100 transition active:scale-95 text-center flex items-center justify-center"
-                >
-                  ← Home
-                </Link>
-              </div>
-            </motion.div>
+                <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3 w-full">
+                  <button
+                    onClick={() => {
+                      sessionStorage.setItem('ev_desktop_mode_active', 'true')
+                      setIsMobile(false)
+                    }}
+                    className="flex-1 rounded-xl bg-emerald-500 py-2.5 px-4 text-xs font-bold text-slate-950 transition hover:bg-emerald-400 active:scale-95 text-center flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-500/20"
+                  >
+                    ✓ I've Turned On Desktop Mode
+                  </button>
+                  <Link
+                    to="/"
+                    className="rounded-xl border border-slate-700 bg-slate-800/80 py-2.5 px-4 text-xs font-semibold text-slate-300 hover:text-slate-100 transition active:scale-95 text-center flex items-center justify-center"
+                  >
+                    ← Home
+                  </Link>
+                </div>
+              </motion.div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

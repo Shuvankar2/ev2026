@@ -35,7 +35,7 @@ export default function LandingFeatureGrid() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.15 }}
-              className="glass p-8 rounded-tr-[1.5rem] rounded-br-[1.5rem] rounded-l-md border-y border-r border-l-4 border-l-rose-500 border-y-slate-200 border-r-slate-200 bg-white/50 dark:border-y-white/10 dark:border-r-white/10 dark:bg-white/5"
+              className="glass p-6 sm:p-8 rounded-tr-[1.5rem] rounded-br-[1.5rem] rounded-l-md border-y border-r border-l-4 border-l-rose-500 border-y-slate-200 border-r-slate-200 bg-white/50 dark:border-y-white/10 dark:border-r-white/10 dark:bg-white/5"
             >
               <h4 className="text-xl font-bold text-slate-800 dark:text-white leading-tight">{card.title}</h4>
               <p className="mt-4 text-sm font-medium leading-relaxed text-slate-600 dark:text-white/60">{card.desc}</p>
@@ -54,7 +54,7 @@ export default function LandingFeatureGrid() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="glass rounded-[1.75rem] p-8 border-slate-200 bg-white/50 dark:border-white/10 dark:bg-white/5"
+              className="glass rounded-[1.75rem] p-6 sm:p-8 border-slate-200 bg-white/50 dark:border-white/10 dark:bg-white/5"
             >
               <div className="text-3xl mb-4">{feature.icon}</div>
               <h4 className="text-lg font-bold text-teal-600 dark:text-teal-400 leading-tight">{feature.title}</h4>
@@ -78,7 +78,7 @@ export default function LandingFeatureGrid() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.15 }}
                 key={i} 
-                className="glass p-6 rounded-[1.5rem] flex items-center gap-5 border-slate-200 bg-white/50 dark:border-white/10 dark:bg-white/5"
+                className="glass p-5 sm:p-6 rounded-[1.5rem] flex items-center gap-4 sm:gap-5 border-slate-200 bg-white/50 dark:border-white/10 dark:bg-white/5"
              >
                 <div className="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-xl bg-slate-900 dark:bg-white/10 text-white border border-slate-700 dark:border-white/10">
                   <span className="text-lg font-bold">{item.cap.split(' ')[0]}</span>

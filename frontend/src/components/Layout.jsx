@@ -2,7 +2,7 @@ import NavBar from './NavBar'
 
 export default function Layout({ children }) {
   return (
-    <div className="min-h-screen bg-emerald-50 text-slate-900 dark:bg-[#121212] dark:text-white transition-colors duration-500">
+    <div className="min-h-screen bg-emerald-50 text-slate-900 dark:bg-[#121212] dark:text-white transition-colors duration-500 overflow-x-hidden">
       <div className="fixed inset-0 -z-10 overflow-hidden">
         <div className="absolute inset-0 grid-pattern opacity-0 dark:opacity-20" />
         <div className="absolute inset-0 opacity-30 dark:opacity-0" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(0,0,0,0.05) 1px, transparent 0)', backgroundSize: '22px 22px' }} />
@@ -11,7 +11,7 @@ export default function Layout({ children }) {
         <div className="absolute bottom-[-8rem] left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-white/20 dark:bg-white/5 blur-3xl" />
       </div>
       <NavBar />
-      <main>{children}</main>
+      <main className="overflow-x-hidden">{children}</main>
     </div>
   )
 }

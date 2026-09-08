@@ -17,18 +17,57 @@ const BOTTOM_TABS = [
   { key: 'math',   label: 'Math'   },
 ]
 
+const checkIsMobileMode = () => {
+  if (typeof window === 'undefined') return false
+  if (sessionStorage.getItem('ev_desktop_mode_active') === 'true') return false
+
+  const ua = navigator.userAgent || ''
+  // In mobile mode, mobile browsers explicitly send "Mobile" in userAgent.
+  // When the user taps "Desktop site" on Android Chrome or "Request Desktop Website" on iOS Safari:
+  // - Chrome Android removes "Mobile" from UA (or switches to Linux x86_64)
+  // - Safari iOS changes UA to Macintosh (Intel Mac OS X)
+  // - Firefox/Edge removes "Mobile"
+  const isExplicitMobileUA = /Mobile|iPhone|iPod|Android.*Mobile|webOS|BlackBerry|IEMobile|Opera Mini/i.test(ua)
+  
+  // Only trigger mobile gate if the browser explicitly identifies as a mobile phone in mobile mode AND width < 900px
+  if (isExplicitMobileUA && window.innerWidth < 900) {
+    return true
+  }
+
+  return false
+}
+
 export default function SimulatorPage() {
-  const [isMobile, setIsMobile] = useState(() => {
-    if (typeof window === 'undefined') return false
-    return window.innerWidth < 1024
-  })
+  const [isMobile, setIsMobile] = useState(checkIsMobileMode)
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 1024)
+      setIsMobile(checkIsMobileMode())
     }
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  // Enable dynamic zooming and wide desktop layout scaling when inside the simulator
+  useEffect(() => {
+    window.__allowZoom = true
+    const meta = document.querySelector('meta[name="viewport"]')
+    const prevContent = meta?.getAttribute('content')
+
+    if (meta) {
+      // In simulator and desktop mode from mobile, allow user pinch zooming freely
+      meta.setAttribute(
+        'content',
+        'width=1024, initial-scale=0.35, minimum-scale=0.2, maximum-scale=5.0, user-scalable=yes'
+      )
+    }
+
+    return () => {
+      window.__allowZoom = false
+      if (meta && prevContent) {
+        meta.setAttribute('content', prevContent)
+      }
+    }
   }, [])
 
   const sim = useSimulation({
@@ -79,13 +118,13 @@ export default function SimulatorPage() {
               </div>
 
               <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-emerald-400 mb-1">
-                Desktop Only Mode
+                Desktop View Recommended
               </span>
               <h2 className="text-2xl font-black text-white mb-2">
                 Please Turn On Desktop Mode
               </h2>
               <p className="text-xs text-slate-300 leading-relaxed mb-5">
-                The live MPC-ACC simulator contains high-density telemetry, multi-curve state charts, and dynamic road visualization engineered exclusively for desktop viewports.
+                The live MPC-ACC simulator contains high-density telemetry, multi-curve state charts, and dynamic road visualization engineered for desktop viewports.
               </p>
 
               {/* Instructions Box */}
@@ -103,23 +142,26 @@ export default function SimulatorPage() {
                 </div>
                 <div className="flex items-start gap-2">
                   <span className="text-emerald-400 font-bold">3.</span>
-                  <span>The simulator will automatically unlock and resize!</span>
+                  <span>The simulator will automatically unlock, allowing you to pinch-zoom into any chart!</span>
                 </div>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3 w-full">
+                <button
+                  onClick={() => {
+                    sessionStorage.setItem('ev_desktop_mode_active', 'true')
+                    setIsMobile(false)
+                  }}
+                  className="flex-1 rounded-xl bg-emerald-500 py-2.5 px-4 text-xs font-bold text-slate-950 transition hover:bg-emerald-400 active:scale-95 text-center flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-500/20"
+                >
+                  ✓ I've Turned On Desktop Mode
+                </button>
                 <Link
                   to="/"
-                  className="flex-1 rounded-xl bg-emerald-500 py-2.5 px-4 text-xs font-bold text-slate-950 transition hover:bg-emerald-400 active:scale-95 text-center flex items-center justify-center gap-1"
+                  className="rounded-xl border border-slate-700 bg-slate-800/80 py-2.5 px-4 text-xs font-semibold text-slate-300 hover:text-slate-100 transition active:scale-95 text-center flex items-center justify-center"
                 >
-                  ← Return to Home
+                  ← Home
                 </Link>
-                <button
-                  onClick={() => setIsMobile(false)}
-                  className="rounded-xl border border-slate-700 bg-slate-800/80 py-2.5 px-4 text-xs font-semibold text-slate-400 hover:text-slate-200 transition active:scale-95"
-                >
-                  Preview anyway
-                </button>
               </div>
             </motion.div>
           </motion.div>

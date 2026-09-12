@@ -6,3 +6,4 @@ frontend/dist/
 __pycache__/
 *.pyc
 .vscode/
+RESEARCH_AND_TECHNICAL_DOCUMENTATION*

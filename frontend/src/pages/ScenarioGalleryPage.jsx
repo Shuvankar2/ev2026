@@ -69,14 +69,14 @@ export default function ScenarioGalleryPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-700 dark:bg-slate-950 dark:text-slate-300 transition-colors duration-300">
-            <Helmet>
-        <title>Scenario Gallery · ev2026 | Extreme EV Battery & Brake Benchmark</title>
-        <meta name="description" content="Pre-computed simulations comparing Battery-Aware MPC against Standard PID across extreme battery conditions: High SOC, Cold Winter Pack, Degraded High-Resistance Cells, and Aggressive Stop-and-Go." />
-        <meta name="keywords" content="EV MPC scenarios, ev2026, ev.suvnkr.in, Shuvankar Debnath, SUVNKR, suvnkr, shuvankar, debnath, regenerative braking benchmark, electric vehicle simulation, EV MPC IEM Kolkata, friction brake reduction" />
+                  <Helmet>
+        <title>EV MPC Scenario Gallery · IEM Kolkata | Benchmark MPC vs PID</title>
+        <meta name="description" content="EV MPC vs standard PID benchmark scenarios across extreme battery conditions. Research conducted at IEM Kolkata by Shuvankar Debnath (suvnkr)." />
+        <meta name="keywords" content="ev mpc shuvankar, ev mpc, ev mpc suvnkr, suvnkr, ev mpc iem kolkata, ev mpc iem, shuvankar debnath, SUVNKR, ev mpc scenarios, ev2026, ev.suvnkr.in, regenerative braking benchmark, electric vehicle simulation, friction brake reduction" />
         <meta name="author" content="Shuvankar Debnath (SUVNKR)" />
         <link rel="canonical" href="https://ev.suvnkr.in/scenarios" />
-        <meta property="og:title" content="Scenario Gallery · ev2026 | Extreme EV Battery & Brake Benchmark" />
-        <meta property="og:description" content="Compare Battery-Aware MPC vs Standard PID across extreme electrochemical battery stress scenarios." />
+        <meta property="og:title" content="EV MPC Scenario Gallery · IEM Kolkata | Extreme Benchmark" />
+        <meta property="og:description" content="Compare Battery-Aware EV MPC vs Standard PID across extreme battery conditions. Research at IEM Kolkata by Shuvankar Debnath (suvnkr)." />
         <meta property="og:url" content="https://ev.suvnkr.in/scenarios" />
       </Helmet>
 

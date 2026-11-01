@@ -12,13 +12,13 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen pb-0 overflow-x-hidden">
       <Helmet>
-        <title>EV MPC · ev2026 | Battery-Constrained Model Predictive Control · IEM Kolkata</title>
-        <meta name="description" content="Interactive digital twin for Battery-Constrained Model Predictive Adaptive Cruise Control (EV MPC) in Electric Vehicles. Models electrochemical battery dynamics, Kalman filter state estimation, and predictive regen optimization to eliminate friction braking and prevent battery degradation." />
-        <meta name="keywords" content="EV MPC, ev2026, ev.suvnkr.in, Shuvankar Debnath, SUVNKR, suvnkr, shuvankar, debnath, EV MPC IEM Kolkata, IEM Kolkata EV MPC, Electric Vehicle Model Predictive Control, MPC ACC, IEM Kolkata electrical engineering, EV digital twin, regenerative braking MPC" />
+        <title>EV MPC · IEM Kolkata | ev2026 Model Predictive Control</title>
+        <meta name="description" content="EV MPC (Model Predictive Control) digital twin developed at IEM Kolkata by Shuvankar Debnath (suvnkr). Interactive simulation comparing battery-aware MPC against PID cruise control." />
+        <meta name="keywords" content="ev mpc shuvankar, ev mpc, ev mpc suvnkr, suvnkr, ev mpc iem kolkata, ev mpc iem, shuvankar debnath, ev mpc shuvankar debnath, iem kolkata ev mpc, ev2026, ev.suvnkr.in, Shuvankar Debnath, SUVNKR, Electric Vehicle Model Predictive Control, MPC ACC, IEM Kolkata electrical engineering, EV digital twin, regenerative braking MPC" />
         <meta name="author" content="Shuvankar Debnath (SUVNKR)" />
         <link rel="canonical" href="https://ev.suvnkr.in/" />
-        <meta property="og:title" content="EV MPC · ev2026 | Battery-Constrained Model Predictive Control · IEM Kolkata" />
-        <meta property="og:description" content="Interactive digital twin for Battery-Constrained Model Predictive Adaptive Cruise Control (EV MPC) in Electric Vehicles. Eliminates friction braking and optimizes battery degradation via real-time receding horizon control." />
+        <meta property="og:title" content="EV MPC · IEM Kolkata | Battery-Constrained Model Predictive Control" />
+        <meta property="og:description" content="EV MPC (Model Predictive Control) digital twin developed at IEM Kolkata by Shuvankar Debnath (suvnkr). Eliminates friction braking and optimizes battery degradation via real-time receding horizon control." />
         <meta property="og:url" content="https://ev.suvnkr.in/" />
       </Helmet>
       <LandingHero />

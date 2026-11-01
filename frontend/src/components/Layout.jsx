@@ -3,6 +3,15 @@ import NavBar from './NavBar'
 export default function Layout({ children }) {
   return (
     <div className="min-h-screen bg-emerald-50 text-slate-900 dark:bg-[#121212] dark:text-white transition-colors duration-500 overflow-x-hidden">
+      {/* Search Engine & Accessibility Indexed Semantic Context (Internal Only - Not Rendered on Screen) */}
+      <section className="sr-only" aria-label="Project Metadata">
+        <h1>EV MPC — Model Predictive Control for Electric Vehicles</h1>
+        <p>
+          ev mpc research and interactive digital twin platform by Shuvankar Debnath (suvnkr) at IEM Kolkata.
+          ev mpc shuvankar · ev mpc suvnkr · ev mpc iem kolkata · ev mpc iem · suvnkr · ev2026.
+        </p>
+      </section>
+
       <div className="fixed inset-0 -z-10 overflow-hidden">
         <div className="absolute inset-0 grid-pattern opacity-0 dark:opacity-20" />
         <div className="absolute inset-0 opacity-30 dark:opacity-0" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(0,0,0,0.05) 1px, transparent 0)', backgroundSize: '22px 22px' }} />

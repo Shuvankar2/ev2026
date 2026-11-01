@@ -121,14 +121,14 @@ export default function SimulatorPage() {
 
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-slate-50 text-slate-700 font-mono dark:bg-slate-950 dark:text-slate-300 transition-colors duration-300 relative">
-            <Helmet>
-        <title>Live EV MPC Simulator · ev2026 | IEM Kolkata Digital Twin</title>
-        <meta name="description" content="Launch the ev2026 live EV MPC (Electric Vehicle Model Predictive Control) simulator. Test predictive EV cruise control vs standard PID in real-time. IEM Kolkata research digital twin." />
-        <meta name="keywords" content="EV MPC, EV MPC IEM Kolkata, live EV simulator, ev2026, ev.suvnkr.in, Shuvankar Debnath, SUVNKR, suvnkr, shuvankar, debnath, model predictive control, battery degradation cruise control" />
+                  <Helmet>
+        <title>Live EV MPC Simulator · IEM Kolkata | ev2026 Digital Twin</title>
+        <meta name="description" content="Launch the live EV MPC simulator. Research digital twin developed at IEM Kolkata by Shuvankar Debnath (suvnkr) comparing Model Predictive Control against standard PID." />
+        <meta name="keywords" content="ev mpc shuvankar, ev mpc, ev mpc suvnkr, suvnkr, ev mpc iem kolkata, ev mpc iem, live ev simulator, ev2026, ev.suvnkr.in, shuvankar debnath, SUVNKR, model predictive control, battery degradation cruise control" />
         <meta name="author" content="Shuvankar Debnath (SUVNKR)" />
         <link rel="canonical" href="https://ev.suvnkr.in/simulator" />
-        <meta property="og:title" content="Live EV MPC Simulator · ev2026 | IEM Kolkata Digital Twin" />
-        <meta property="og:description" content="Simulate Battery-Aware EV MPC vs PID in real-time. Research digital twin developed at IEM Kolkata." />
+        <meta property="og:title" content="Live EV MPC Simulator · IEM Kolkata | ev2026 Digital Twin" />
+        <meta property="og:description" content="Simulate Battery-Aware EV MPC vs PID in real-time. Research digital twin developed at IEM Kolkata by Shuvankar Debnath (suvnkr)." />
         <meta property="og:url" content="https://ev.suvnkr.in/simulator" />
       </Helmet>
 

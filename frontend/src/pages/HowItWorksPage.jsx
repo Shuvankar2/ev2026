@@ -19,14 +19,14 @@ export default function HowItWorksPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-700 dark:bg-slate-950 dark:text-slate-300 transition-colors duration-300">
-            <Helmet>
-        <title>How MPC-ACC Works · ev2026 | Battery Plant, EKF & MPC Architecture</title>
-        <meta name="description" content="Technical architecture and mathematical formulation of Battery-Constrained Model Predictive Adaptive Cruise Control (MPC-ACC) for Electric Vehicles: Thevenin battery model, Extended Kalman Filter state estimator, and receding horizon optimization." />
-        <meta name="keywords" content="EV MPC, ev2026, ev.suvnkr.in, Shuvankar Debnath, SUVNKR, suvnkr, shuvankar, debnath, battery plant model, Extended Kalman Filter, EKF state estimation, Model Predictive Control, regenerative braking, IEM Kolkata" />
+                  <Helmet>
+        <title>How EV MPC Works · IEM Kolkata | Battery Plant, EKF & MPC Architecture</title>
+        <meta name="description" content="Mathematical architecture of EV MPC: Thevenin battery plant, Extended Kalman Filter (EKF), and Model Predictive Control (MPC) developed at IEM Kolkata by Shuvankar Debnath (suvnkr)." />
+        <meta name="keywords" content="ev mpc shuvankar, ev mpc, ev mpc suvnkr, suvnkr, ev mpc iem kolkata, ev mpc iem, shuvankar debnath, SUVNKR, battery plant model, Extended Kalman Filter, EKF state estimation, Model Predictive Control, regenerative braking, IEM Kolkata" />
         <meta name="author" content="Shuvankar Debnath (SUVNKR)" />
         <link rel="canonical" href="https://ev.suvnkr.in/how-it-works" />
-        <meta property="og:title" content="How MPC-ACC Works · ev2026 | Technical Architecture" />
-        <meta property="og:description" content="Interactive mathematical breakdown of the EV MPC three-layer control pipeline: battery plant, Extended Kalman Filter estimator, and Model Predictive Controller." />
+        <meta property="og:title" content="How EV MPC Works · IEM Kolkata | Technical Architecture" />
+        <meta property="og:description" content="Interactive mathematical breakdown of the EV MPC three-layer control pipeline developed at IEM Kolkata by Shuvankar Debnath (suvnkr)." />
         <meta property="og:url" content="https://ev.suvnkr.in/how-it-works" />
       </Helmet>
 

@@ -13,12 +13,13 @@ export default function LandingPage() {
     <div className="min-h-screen pb-0 overflow-x-hidden">
       <Helmet>
         <title>EV MPC · ev2026 | Battery-Constrained Model Predictive Control · IEM Kolkata</title>
-        <meta name="description" content="Implemented a Model Predictive Control (MPC) simulation for EV battery management, directly applying electrical engineering control theory to a software simulation environment. Modelled battery state dynamics and designed the predictive control loop to optimise charge/discharge behaviour within defined constraints - bridging EE domain knowledge and Python-based simulation. Demonstrates the systems-thinking approach that an EE background brings to software: designing for state, prediction, and correction rather than purely reactive logic." />
-        <meta name="keywords" content="EV MPC, ev2026, EV MPC IEM Kolkata, IEM Kolkata EV MPC, Electric Vehicle Model Predictive Control, MPC ACC, shuvankar debnath, suvnkr, IEM Kolkata electrical engineering, EV digital twin" />
-        <link rel="canonical" href="https://ev.shuvankar.qzz.io/" />
+        <meta name="description" content="Interactive digital twin for Battery-Constrained Model Predictive Adaptive Cruise Control (EV MPC) in Electric Vehicles. Models electrochemical battery dynamics, Kalman filter state estimation, and predictive regen optimization to eliminate friction braking and prevent battery degradation." />
+        <meta name="keywords" content="EV MPC, ev2026, ev.suvnkr.in, Shuvankar Debnath, SUVNKR, suvnkr, shuvankar, debnath, EV MPC IEM Kolkata, IEM Kolkata EV MPC, Electric Vehicle Model Predictive Control, MPC ACC, IEM Kolkata electrical engineering, EV digital twin, regenerative braking MPC" />
+        <meta name="author" content="Shuvankar Debnath (SUVNKR)" />
+        <link rel="canonical" href="https://ev.suvnkr.in/" />
         <meta property="og:title" content="EV MPC · ev2026 | Battery-Constrained Model Predictive Control · IEM Kolkata" />
-        <meta property="og:description" content="Implemented a Model Predictive Control (MPC) simulation for EV battery management, directly applying electrical engineering control theory to a software simulation environment. Modelled battery state dynamics and designed the predictive control loop to optimise charge/discharge behaviour within defined constraints - bridging EE domain knowledge and Python-based simulation. Demonstrates the systems-thinking approach that an EE background brings to software: designing for state, prediction, and correction rather than purely reactive logic." />
-        <meta property="og:url" content="https://ev.shuvankar.qzz.io/" />
+        <meta property="og:description" content="Interactive digital twin for Battery-Constrained Model Predictive Adaptive Cruise Control (EV MPC) in Electric Vehicles. Eliminates friction braking and optimizes battery degradation via real-time receding horizon control." />
+        <meta property="og:url" content="https://ev.suvnkr.in/" />
       </Helmet>
       <LandingHero />
       <LandingCoreArgument />

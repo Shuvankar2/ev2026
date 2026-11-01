@@ -1,27 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://ev.shuvankar.qzz.io/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <loc>https://ev.suvnkr.in/</loc>
+    <lastmod>2026-10-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://ev.shuvankar.qzz.io/simulator</loc>
-    <lastmod>2026-09-09</lastmod>
+    <loc>https://ev.suvnkr.in/simulator</loc>
+    <lastmod>2026-10-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://ev.shuvankar.qzz.io/how-it-works</loc>
-    <lastmod>2026-09-09</lastmod>
+    <loc>https://ev.suvnkr.in/how-it-works</loc>
+    <lastmod>2026-10-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ev.shuvankar.qzz.io/scenarios</loc>
-    <lastmod>2026-09-09</lastmod>
+    <loc>https://ev.suvnkr.in/scenarios</loc>
+    <lastmod>2026-10-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ev.suvnkr.in/settings</loc>
+    <lastmod>2026-10-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
 </urlset>

@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Helmet } from 'react-helmet-async'
 import LiquidPillSelector from '../components/ui/LiquidPillSelector'
 import ScenarioCard from '../components/gallery/ScenarioCard'
 import ComparisonView from '../components/gallery/ComparisonView'
@@ -53,6 +54,9 @@ export default function ScenarioGalleryPage() {
   if (computing) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-slate-50 dark:bg-slate-950 transition-colors">
+        <Helmet>
+          <title>Scenario Gallery · ev2026 | Benchmark EV MPC vs PID</title>
+        </Helmet>
         <div className="text-center">
           <div className="mb-4 flex items-center justify-center gap-2">
             {[0, 150, 300].map(d => <div key={d} className="h-2 w-2 animate-bounce rounded-full bg-emerald-500" style={{ animationDelay: `${d}ms` }} />)}
@@ -65,6 +69,17 @@ export default function ScenarioGalleryPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-700 dark:bg-slate-950 dark:text-slate-300 transition-colors duration-300">
+            <Helmet>
+        <title>Scenario Gallery · ev2026 | Extreme EV Battery & Brake Benchmark</title>
+        <meta name="description" content="Pre-computed simulations comparing Battery-Aware MPC against Standard PID across extreme battery conditions: High SOC, Cold Winter Pack, Degraded High-Resistance Cells, and Aggressive Stop-and-Go." />
+        <meta name="keywords" content="EV MPC scenarios, ev2026, ev.suvnkr.in, Shuvankar Debnath, SUVNKR, suvnkr, shuvankar, debnath, regenerative braking benchmark, electric vehicle simulation, EV MPC IEM Kolkata, friction brake reduction" />
+        <meta name="author" content="Shuvankar Debnath (SUVNKR)" />
+        <link rel="canonical" href="https://ev.suvnkr.in/scenarios" />
+        <meta property="og:title" content="Scenario Gallery · ev2026 | Extreme EV Battery & Brake Benchmark" />
+        <meta property="og:description" content="Compare Battery-Aware MPC vs Standard PID across extreme electrochemical battery stress scenarios." />
+        <meta property="og:url" content="https://ev.suvnkr.in/scenarios" />
+      </Helmet>
+
       <div className="mx-auto max-w-7xl px-4 py-12 md:px-8">
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="mb-10">
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">

@@ -1,5 +1,6 @@
 import { useTheme } from '../context/ThemeContext'
 import { motion } from 'framer-motion'
+import { Helmet } from 'react-helmet-async'
 
 export default function SettingsPage() {
   const { theme, setTheme } = useTheme()
@@ -12,6 +13,16 @@ export default function SettingsPage() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 md:px-8">
+            <Helmet>
+        <title>Settings · ev2026 | Simulation & Dashboard Preferences</title>
+        <meta name="description" content="Configure visual themes and display preferences for the ev2026 EV MPC digital twin." />
+        <meta name="keywords" content="EV MPC, ev2026, ev.suvnkr.in, Shuvankar Debnath, SUVNKR, suvnkr" />
+        <meta name="author" content="Shuvankar Debnath (SUVNKR)" />
+        <link rel="canonical" href="https://ev.suvnkr.in/settings" />
+        <meta property="og:title" content="Settings · ev2026" />
+        <meta property="og:url" content="https://ev.suvnkr.in/settings" />
+      </Helmet>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

@@ -1,6 +1,7 @@
 # Battery-Constrained MPC-ACC for Electric Vehicles
 
-> **Undergraduate Research · IEM Kolkata · Electrical Engineering · 2026**
+> **Undergraduate Research · IEM Kolkata · Electrical Engineering · 2026**  
+> **Live Platform**: [https://ev.suvnkr.in](https://ev.suvnkr.in)
 
 An interactive digital twin that visualizes Battery-Constrained Model Predictive Adaptive Cruise Control (MPC-ACC) for Electric Vehicles using Extended Kalman Filter state estimation — entirely in the browser with no backend required.
 

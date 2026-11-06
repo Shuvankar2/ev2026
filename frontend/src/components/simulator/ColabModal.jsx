@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { downloadTelemetryCSV } from '../../utils/telemetryExporter'
 
-const COLAB_URL = 'https://colab.research.google.com/github/Shuvankar2/ev2026/blob/main/notebooks/ev_mpc_battery_ml.ipynb'
+const COLAB_URL = 'https://colab.research.google.com/github/Shuvankar2/ev2026/blob/main/notebooks/ev_mpc_battery_workbench.ipynb'
 
 const PYTHON_SNIPPET = `# ── EV MPC Google Colab Telemetry Loader ──────────────────
 import pandas as pd
@@ -165,7 +165,7 @@ export default function ColabModal({ isOpen, onClose, history, params }) {
 
           {/* Footer note */}
           <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
-            <span>Notebook hosted on GitHub: <code className="text-emerald-500">notebooks/ev_mpc_battery_ml.ipynb</code></span>
+            <span>Notebook hosted on GitHub: <code className="text-emerald-500">notebooks/ev_mpc_battery_workbench.ipynb</code></span>
             <button
               onClick={onClose}
               className="font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"

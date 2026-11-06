@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { evaluateBatteryTelemetry } from '../../engine/batteryMLEngine'
 import { downloadTelemetryCSV } from '../../utils/telemetryExporter'
 
-const COLAB_URL = 'https://colab.research.google.com/github/Shuvankar2/ev2026/blob/main/notebooks/ev_mpc_battery_ml.ipynb'
+const COLAB_URL = 'https://colab.research.google.com/github/Shuvankar2/ev2026/blob/main/notebooks/ev_mpc_battery_workbench.ipynb'
 
 export default function SimMLDiagnosticsPanel({ history, params, onOpenColabModal }) {
   const ml = useMemo(() => {

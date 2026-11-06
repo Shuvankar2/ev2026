@@ -1,13 +1,14 @@
 import { useState, useEffect, useMemo } from 'react'
 import LiquidPillSelector from '../ui/LiquidPillSelector'
+import { downloadTelemetryCSV } from '../../utils/telemetryExporter'
 
 const BATTERY_CONDITIONS = ['Healthy', 'Degraded', 'Cold']
 const REGEN_LABELS = { Healthy: '74 kW', Degraded: '56 kW', Cold: '44 kW (0°C)' }
 
-export default function SimControlRail({ sim }) {
+export default function SimControlRail({ sim, onOpenColabModal }) {
   const { params, setParams, reset, play, pause,
           isPlaying, isComplete, speedMultiplier, setSpeedMultiplier,
-          currentState } = sim
+          currentState, history } = sim
 
   const [local, setLocal] = useState(params)
   const isDirty   = JSON.stringify(local) !== JSON.stringify(params)
@@ -28,6 +29,10 @@ export default function SimControlRail({ sim }) {
 
   const set = (k, v) => setLocal(p => ({ ...p, [k]: v }))
   const handleReset = () => reset(local)
+
+  const handleExport = () => {
+    downloadTelemetryCSV(history, params)
+  }
 
   return (
     <div className="space-y-5 p-4">
@@ -52,18 +57,23 @@ export default function SimControlRail({ sim }) {
             </span>
           </div>
           <input
-            type="range" min="0.1" max="1.0" step="0.05"
+            type="range"
+            min="0.10"
+            max="1.0"
+            step="0.05"
             value={local.soc_initial}
-            onChange={e => set('soc_initial', parseFloat(e.target.value))}
-            className="w-full cursor-pointer accent-emerald-500"
             disabled={isRunning}
+            onChange={e => set('soc_initial', parseFloat(e.target.value))}
+            className="w-full accent-emerald-500 cursor-pointer disabled:cursor-not-allowed"
           />
-          <div className="flex justify-between text-xs text-slate-400 dark:text-slate-700">
-            <span>10%</span><span>50%</span><span>100%</span>
+          <div className="flex justify-between text-[10px] text-slate-400 dark:text-slate-600">
+            <span>10%</span>
+            <span>50%</span>
+            <span>100%</span>
           </div>
         </div>
 
-        {/* Cruise speed */}
+        {/* Cruise speed slider */}
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
             <label className="text-xs font-bold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500">
@@ -74,78 +84,78 @@ export default function SimControlRail({ sim }) {
             </span>
           </div>
           <input
-            type="range" min="60" max="130" step="5"
+            type="range"
+            min="60"
+            max="130"
+            step="5"
             value={local.cruise_speed_kmh}
-            onChange={e => set('cruise_speed_kmh', parseInt(e.target.value))}
-            className="w-full cursor-pointer accent-emerald-500"
             disabled={isRunning}
+            onChange={e => set('cruise_speed_kmh', parseInt(e.target.value))}
+            className="w-full accent-emerald-500 cursor-pointer disabled:cursor-not-allowed"
           />
-          <div className="flex justify-between text-xs text-slate-400 dark:text-slate-700">
-            <span>60</span><span>100</span><span>130</span>
+          <div className="flex justify-between text-[10px] text-slate-400 dark:text-slate-600">
+            <span>60 km/h</span>
+            <span>95 km/h</span>
+            <span>130 km/h</span>
           </div>
         </div>
 
-        {/* Duration */}
+        {/* Battery condition selector */}
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
-            <label className="text-xs font-bold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500" title="Can be manually overridden up to 3 hours (10800s)">
-              Duration (max 3h)
+            <label className="text-xs font-bold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500">
+              Battery Condition
             </label>
-            <div className="flex items-center gap-1">
-              <input
-                type="number"
-                min="30" max="10800"
-                value={local.max_time ?? 300}
-                onChange={e => {
-                   let val = parseInt(e.target.value, 10)
-                   if (isNaN(val)) val = 300
-                   set('max_time', Math.min(10800, Math.max(30, val)))
-                }}
-                disabled={isRunning}
-                className="w-16 rounded border border-slate-200 bg-white px-1 py-0.5 text-right text-sm font-bold tabular-nums text-emerald-600 outline-none transition focus:border-emerald-500 disabled:opacity-50 dark:border-slate-700 dark:bg-slate-900/50 dark:text-emerald-400"
-              />
-              <span className="text-xs font-bold text-slate-400 dark:text-slate-500">s</span>
-            </div>
+            <span className="text-xs font-bold text-slate-400">
+              {REGEN_LABELS[local.battery_condition]}
+            </span>
           </div>
-          <input
-            type="range" min="30" max="10800" step="30"
-            value={local.max_time ?? 300}
-            onChange={e => set('max_time', parseInt(e.target.value))}
-            className="w-full cursor-pointer accent-emerald-500"
-            disabled={isRunning}
-          />
-          <div className="flex justify-between pointer-events-none text-xs text-slate-400 dark:text-slate-700">
-            <span>30s</span><span>1.5h</span><span>3h</span>
-          </div>
-        </div>
-
-        {/* Battery condition */}
-        <div className="space-y-2">
-          <label className="text-xs font-bold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500">
-            Battery Condition
-          </label>
           <LiquidPillSelector
             items={BATTERY_CONDITIONS.map(c => ({ key: c, label: c }))}
             activeKey={local.battery_condition}
-            onChange={(k) => set('battery_condition', k)}
-            disabled={isRunning}
+            onChange={k => !isRunning && set('battery_condition', k)}
             filterId="liquid-battery"
           />
-          <div className="text-xs text-slate-400 dark:text-slate-700">
-            Regen cap: {REGEN_LABELS[local.battery_condition]}
-          </div>
         </div>
-      </div>
 
-      {/* Dirty state — apply button */}
-      {isDirty && (
-        <button
-          onClick={handleReset}
-          className="w-full rounded-xl border border-amber-400/30 bg-amber-50 py-2 text-xs font-bold text-amber-600 transition hover:bg-amber-100 active:scale-95 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-400 dark:hover:bg-amber-500/20"
-        >
-          ↺ Apply & Reset with New Parameters
-        </button>
-      )}
+        {/* Duration selector */}
+        <div className="space-y-1.5">
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-bold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500">
+              Duration
+            </label>
+            <span className="text-xs font-bold text-slate-400">
+              {(local.max_time ?? 300) >= 3600
+                ? `${(local.max_time / 3600).toFixed(0)}h`
+                : `${((local.max_time ?? 300) / 60).toFixed(0)} min`}
+            </span>
+          </div>
+          <LiquidPillSelector
+            items={[
+              { key: 30,    label: '30s' },
+              { key: 300,   label: '5m' },
+              { key: 900,   label: '15m' },
+              { key: 1800,  label: '30m' },
+              { key: 3600,  label: '1h' },
+              { key: 10800, label: '3h' },
+            ]}
+            activeKey={local.max_time ?? 300}
+            onChange={k => !isRunning && set('max_time', k)}
+            filterId="liquid-duration"
+          />
+        </div>
+
+        {/* Apply changes button */}
+        {isDirty && !isRunning && (
+          <button
+            onClick={() => setParams(local)}
+            className="w-full rounded-xl bg-emerald-500 py-2.5 text-xs font-bold text-white transition hover:bg-emerald-400 active:scale-95 shadow-lg shadow-emerald-500/20"
+          >
+            Apply Changes
+          </button>
+        )}
+
+      </div>
 
       <div className="border-t border-slate-200 dark:border-slate-800 transition-colors duration-300" />
 
@@ -205,6 +215,39 @@ export default function SimControlRail({ sim }) {
             className="h-full rounded-full bg-emerald-500 transition-all"
             style={{ width: `${((currentState?.t ?? 0) / (params.max_time ?? 300)) * 100}%` }}
           />
+        </div>
+      </div>
+
+      {/* Data Export & Colab Workbench */}
+      <div className="space-y-2 pt-2 border-t border-slate-200 dark:border-slate-800">
+        <div className="flex items-center justify-between">
+          <label className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500">
+            ML & Cloud Workbench
+          </label>
+          <span className="text-[10px] text-slate-400 font-mono">
+            {history?.length ?? 0} rows
+          </span>
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            onClick={handleExport}
+            disabled={!history || history.length <= 1}
+            className="flex items-center justify-center gap-1.5 rounded-xl border border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 py-2.5 px-2 text-[11px] font-bold text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 transition active:scale-95 disabled:opacity-40"
+            title="Download full telemetry dataset in CSV format"
+          >
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            Export CSV
+          </button>
+          <button
+            onClick={onOpenColabModal}
+            className="flex items-center justify-center gap-1.5 rounded-xl border border-amber-500/30 bg-amber-50 dark:bg-amber-500/10 py-2.5 px-2 text-[11px] font-bold text-amber-700 dark:text-amber-400 hover:bg-amber-100 dark:hover:bg-amber-500/20 transition active:scale-95"
+            title="Open interactive ML workbook in Google Colab"
+          >
+            <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Colab" className="h-3" />
+            Colab Tasks
+          </button>
         </div>
       </div>
 

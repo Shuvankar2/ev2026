@@ -10,11 +10,15 @@ import SimRoadView           from '../components/simulator/SimRoadView'
 import SimChartPanel         from '../components/simulator/SimChartPanel'
 import SimMathDisplay        from '../components/simulator/SimMathDisplay'
 import SimAccuracyPanel      from '../components/simulator/SimAccuracyPanel'
+import SimMLDiagnosticsPanel from '../components/simulator/SimMLDiagnosticsPanel'
+import ColabModal            from '../components/simulator/ColabModal'
+import { downloadTelemetryCSV } from '../utils/telemetryExporter'
 import LiquidPillSelector    from '../components/ui/LiquidPillSelector'
 
 const BOTTOM_TABS = [
   { key: 'charts', label: 'Charts' },
   { key: 'math',   label: 'Math'   },
+  { key: 'ai',     label: 'AI Battery Diagnostics' },
 ]
 
 /**
@@ -114,6 +118,7 @@ export default function SimulatorPage() {
 
   const [bottomTab, setBottomTab]       = useState('charts')
   const [showAccuracy, setShowAccuracy] = useState(false)
+  const [showColab, setShowColab]       = useState(false)
 
   const frictionAvoided = sim.history.reduce((n, s) =>
     n + (s.friction_std && !s.friction_mpc ? 1 : 0), 0
@@ -121,7 +126,7 @@ export default function SimulatorPage() {
 
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-slate-50 text-slate-700 font-mono dark:bg-slate-950 dark:text-slate-300 transition-colors duration-300 relative">
-                  <Helmet>
+      <Helmet>
         <title>Live EV MPC Simulator · IEM Kolkata | ev2026 Digital Twin</title>
         <meta name="description" content="Launch the live EV MPC simulator. Research digital twin developed at IEM Kolkata by Shuvankar Debnath (suvnkr) comparing Model Predictive Control against standard PID." />
         <meta name="keywords" content="ev mpc shuvankar, ev mpc, ev mpc suvnkr, suvnkr, ev mpc iem kolkata, ev mpc iem, live ev simulator, ev2026, ev.suvnkr.in, shuvankar debnath, SUVNKR, model predictive control, battery degradation cruise control" />
@@ -147,76 +152,68 @@ export default function SimulatorPage() {
                 animate={{ scale: 1, y: 0 }}
                 className="max-w-md w-full my-auto rounded-2xl border border-emerald-500/30 bg-slate-900/95 p-5 sm:p-6 shadow-2xl text-center flex flex-col items-center"
               >
-                {/* Monitor Device Icon */}
-                <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-3 sm:mb-4 shadow-[0_0_25px_rgba(16,185,129,0.2)]">
-                  <svg className="w-6 h-6 sm:w-8 sm:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                {/* Hardware monitor icon */}
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 mb-4">
+                  <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
+                    <rect x="2" y="3" width="20" height="14" rx="2" />
+                    <line x1="8" y1="21" x2="16" y2="21" />
+                    <line x1="12" y1="17" x2="12" y2="21" />
                   </svg>
                 </div>
 
-                <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.25em] text-emerald-400 mb-1">
-                  Desktop View Recommended
-                </span>
-                <h2 className="text-xl sm:text-2xl font-black text-white mb-2">
-                  Please Turn On Desktop Mode
+                <div className="text-[11px] font-bold uppercase tracking-[0.25em] text-emerald-400/80 mb-1">
+                  Desktop Interface Required
+                </div>
+                <h2 className="text-xl sm:text-2xl font-black text-white mb-2 tracking-tight">
+                  Simulator Workspace
                 </h2>
-                <p className="text-xs text-slate-300 leading-relaxed mb-4 sm:mb-5">
-                  The live MPC-ACC simulator contains high-density telemetry, multi-curve state charts, and dynamic road visualization engineered for desktop viewports.
+
+                <p className="text-xs sm:text-sm text-slate-400 leading-relaxed mb-4 max-w-sm">
+                  The EV MPC simulation engine runs real-time matrix solvers and multi-channel telemetry streams optimized for wider displays.
                 </p>
 
-                {/* Instructions Box */}
-                <div className="w-full bg-slate-950/60 border border-slate-800 rounded-xl p-3.5 sm:p-4 text-left mb-4 sm:mb-5 text-xs text-slate-300 space-y-1.5 sm:space-y-2">
-                  <div className="font-semibold text-emerald-400 flex items-center gap-1.5 text-[11px] uppercase tracking-wider">
-                    <span>⚙️</span> How to enable on mobile:
+                {/* Instructions card */}
+                <div className="w-full rounded-xl border border-white/10 bg-white/5 p-3 sm:p-4 text-left mb-4 space-y-2">
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+                    <span className="flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400 text-[10px]">✓</span>
+                    To launch on this phone:
                   </div>
-                  <div className="flex items-start gap-2">
-                    <span className="text-emerald-400 font-bold">1.</span>
-                    <span>Tap your browser menu (<strong className="text-white">⋮</strong> in Chrome, <strong className="text-white">aA</strong> in Safari, <strong className="text-white">⋯</strong> in Edge).</span>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <span className="text-emerald-400 font-bold">2.</span>
-                    <span>Enable <strong className="text-white">"Desktop site"</strong> or <strong className="text-white">"Request Desktop Website"</strong>.</span>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <span className="text-emerald-400 font-bold">3.</span>
-                    <span>The simulator will automatically unlock, allowing you to pinch-zoom into any chart!</span>
-                  </div>
+                  <ol className="text-xs text-slate-400 space-y-1.5 list-decimal list-inside pl-1">
+                    <li>Open browser menu (<strong className="text-white">⋮</strong> or <strong className="text-white">Share</strong>)</li>
+                    <li>Enable <strong className="text-emerald-300">Desktop Site</strong> / <strong className="text-emerald-300">Request Desktop Website</strong></li>
+                    <li>The simulator unlocks automatically</li>
+                  </ol>
                 </div>
 
-                <div className="w-full">
-                  <Link
-                    to="/"
-                    className="w-full rounded-xl border border-slate-700 bg-slate-800/80 py-2.5 px-4 text-xs font-semibold text-slate-300 hover:text-slate-100 transition active:scale-95 text-center flex items-center justify-center"
-                  >
-                    ← Back to Home
-                  </Link>
-                </div>
+                {/* Return home button */}
+                <Link
+                  to="/"
+                  className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 text-xs font-bold text-slate-300 hover:bg-white/10 transition active:scale-95 text-center"
+                >
+                  ← Return to Home Overview
+                </Link>
               </motion.div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* ── LEFT RAIL ── */}
-      <aside className="flex w-[300px] shrink-0 flex-col border-r border-slate-200 bg-white/70 dark:border-slate-800 dark:bg-slate-900/40 transition-colors duration-300">
+      {/* ── LEFT PANE: CONTROLS & MONITORING ── */}
+      <aside className="flex w-80 shrink-0 flex-col border-r border-slate-200 bg-white/50 backdrop-blur-md transition-colors duration-300 dark:border-slate-800 dark:bg-slate-900/50">
 
-        {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-200 px-4 py-3 dark:border-slate-800 transition-colors duration-300">
-          <div>
-            <div className="text-xs font-black uppercase tracking-[0.22em] text-emerald-600 dark:text-emerald-500">
-              MPC-ACC
-            </div>
-            <div className="text-[10px] text-slate-400 dark:text-slate-600">Live Simulation Engine</div>
-          </div>
-          <div className="flex items-center gap-2">
-            <div
-              className={`h-2 w-2 rounded-full ${
-                sim.isPlaying  ? 'animate-pulse bg-emerald-500 dark:bg-emerald-400' :
-                sim.isComplete ? 'bg-amber-500 dark:bg-amber-400'                   :
-                                 'bg-slate-300 dark:bg-slate-700'
-              }`}
-            />
-            <span className="text-[10px] font-bold uppercase text-slate-400 dark:text-slate-600">
+        {/* Brand header */}
+        <div className="border-b border-slate-200 p-4 dark:border-slate-800 transition-colors duration-300">
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-extrabold tracking-wider text-slate-800 dark:text-white">
+              EV MPC · 2026
+            </span>
+            <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
+              sim.isPlaying
+                ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 animate-pulse'
+                : sim.isComplete
+                ? 'bg-blue-500/20 text-blue-600 dark:text-blue-400'
+                : 'bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
+            }`}>
               {sim.isPlaying ? 'RUNNING' : sim.isComplete ? 'DONE' : 'IDLE'}
             </span>
           </div>
@@ -224,7 +221,7 @@ export default function SimulatorPage() {
 
         {/* Controls (scrollable) */}
         <div className="flex-1 overflow-y-auto">
-          <SimControlRail sim={sim} />
+          <SimControlRail sim={sim} onOpenColabModal={() => setShowColab(true)} />
         </div>
 
         {/* KPI strip */}
@@ -243,10 +240,10 @@ export default function SimulatorPage() {
             <p className="mb-2 text-xs font-bold uppercase tracking-[0.25em] text-emerald-600/80 dark:text-emerald-500/80">
               Interactive Digital Twin
             </p>
-            <h1 className="text-3xl font-black text-slate-900 transition-colors dark:text-white md:text-4xl">
-              Live Simulator
+            <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-white sm:text-4xl">
+              Live MPC Simulator
             </h1>
-            <p className="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400 max-w-3xl">
+            <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate-600 dark:text-slate-300">
               Test Battery-Aware Model Predictive Control against standard PID in real-time. 
               Adjust conditions, inject friction events, and monitor predictive energy savings.
             </p>
@@ -278,11 +275,11 @@ export default function SimulatorPage() {
           </AnimatePresence>
         </section>
 
-        {/* Bottom panel — Charts / Math */}
+        {/* Bottom panel — Charts / Math / AI Battery Diagnostics */}
         <section className="flex min-h-0 flex-1 flex-col overflow-hidden p-4">
 
           {/* Tab bar */}
-          <div className="mb-3 flex items-center gap-3">
+          <div className="mb-3 flex items-center justify-between gap-3 flex-wrap">
             <LiquidPillSelector
               items={BOTTOM_TABS}
               activeKey={bottomTab}
@@ -291,15 +288,38 @@ export default function SimulatorPage() {
               filterId="liquid-bottom-tabs"
             />
 
-            <button
-              onClick={() => setShowAccuracy(true)}
-              className="ml-auto flex items-center gap-1.5 rounded-full border border-blue-300/40 bg-blue-50 px-3 py-1.5 text-[11px] font-bold text-blue-500 transition hover:border-blue-400/50 hover:bg-blue-100 dark:border-blue-500/20 dark:bg-blue-500/5 dark:text-blue-400/70 dark:hover:border-blue-400/30 dark:hover:bg-blue-500/10 dark:hover:text-blue-300"
-            >
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
-              </svg>
-              Accuracy Test
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => downloadTelemetryCSV(sim.history, sim.params)}
+                disabled={!sim.history || sim.history.length <= 1}
+                className="flex items-center gap-1.5 rounded-full border border-emerald-300/40 bg-emerald-50 px-3 py-1.5 text-[11px] font-bold text-emerald-600 transition hover:border-emerald-400 hover:bg-emerald-100 dark:border-emerald-500/20 dark:bg-emerald-500/5 dark:text-emerald-400/80 dark:hover:bg-emerald-500/10 dark:hover:text-emerald-300 disabled:opacity-40"
+                title="Download CSV dataset"
+              >
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Export CSV ({sim.history?.length ?? 0})
+              </button>
+
+              <button
+                onClick={() => setShowColab(true)}
+                className="flex items-center gap-1.5 rounded-full border border-amber-300/50 bg-amber-50 px-3 py-1.5 text-[11px] font-bold text-amber-700 transition hover:border-amber-400 hover:bg-amber-100 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-400 dark:hover:bg-amber-500/20"
+                title="Open interactive ML workbook in Google Colab"
+              >
+                <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Colab" className="h-3" />
+                Colab Tasks
+              </button>
+
+              <button
+                onClick={() => setShowAccuracy(true)}
+                className="flex items-center gap-1.5 rounded-full border border-blue-300/40 bg-blue-50 px-3 py-1.5 text-[11px] font-bold text-blue-500 transition hover:border-blue-400/50 hover:bg-blue-100 dark:border-blue-500/20 dark:bg-blue-500/5 dark:text-blue-400/70 dark:hover:border-blue-400/30 dark:hover:bg-blue-500/10 dark:hover:text-blue-300"
+              >
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+                </svg>
+                Accuracy Test
+              </button>
+            </div>
           </div>
 
           <div className="min-h-0 flex-1 overflow-hidden">
@@ -316,6 +336,13 @@ export default function SimulatorPage() {
                 params={sim.params}
               />
             )}
+            {bottomTab === 'ai' && (
+              <SimMLDiagnosticsPanel
+                history={sim.history}
+                params={sim.params}
+                onOpenColabModal={() => setShowColab(true)}
+              />
+            )}
           </div>
         </section>
 
@@ -324,6 +351,17 @@ export default function SimulatorPage() {
       <AnimatePresence>
         {showAccuracy && (
           <SimAccuracyPanel onClose={() => setShowAccuracy(false)} />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {showColab && (
+          <ColabModal
+            isOpen={showColab}
+            onClose={() => setShowColab(false)}
+            history={sim.history}
+            params={sim.params}
+          />
         )}
       </AnimatePresence>
 

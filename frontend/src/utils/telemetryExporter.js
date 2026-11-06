@@ -138,3 +138,4 @@ export function downloadTelemetryCSV(history, params = {}) {
 
   return true
 }
+

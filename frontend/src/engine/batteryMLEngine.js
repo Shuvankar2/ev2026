@@ -212,3 +212,4 @@ function getBaselineDiagnostics(params) {
     verdict: 'Simulation initialized. Run ticks to compute real-time electrochemical degradation and comparative ML advantage.'
   }
 }
+

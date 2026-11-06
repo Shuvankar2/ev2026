@@ -168,3 +168,4 @@ export default function SimMLDiagnosticsPanel({ history, params, onOpenColabModa
     </div>
   )
 }
+

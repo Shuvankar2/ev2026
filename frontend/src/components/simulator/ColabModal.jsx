@@ -124,8 +124,8 @@ export default function ColabModal({ isOpen, onClose, history, params }) {
               <div className="p-3 rounded-xl bg-slate-100 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 flex items-start gap-3">
                 <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400">Task 3</span>
                 <div>
-                  <p className="font-semibold text-slate-800 dark:text-slate-200">Train Random Forest / Gradient Boosting Models</p>
-                  <p className="text-slate-500 dark:text-slate-400 mt-0.5">Fit machine learning regressors to predict battery stress coefficients.</p>
+                  <p className="font-semibold text-slate-800 dark:text-slate-200">Train 1D-CNN, Deep Cascade Forest & Quantum VQC</p>
+                  <p className="text-slate-500 dark:text-slate-400 mt-0.5">Fit temporal 1D-CNN, Deep Forest (multi-grained cascade), and Variational Quantum Circuits (PennyLane) for cell degradation.</p>
                 </div>
               </div>
               <div className="p-3 rounded-xl bg-slate-100 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 flex items-start gap-3">
